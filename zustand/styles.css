@@ -12,8 +12,6 @@ main div {
     position: absolute;
     top: -50px;
     left: -50px;
-    /*right: -50px;*/
-    /*bottom: -50px;*/
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50%;
@@ -22,24 +20,47 @@ main div {
 }
 .background {
     background-image: url("./images/bg.jpg");
+    z-index: 1;
 }
 .stars {
     background-image: url("./images/stars.png");
+    z-index: 2;
 }
 .ground {
     background-image: url("./images/ground.png");
+    z-index: 2;
+}
+.code {
+    position: absolute;
+    top: 20%;
+    left: 55%;
+    width: 40%;
+    height: 50%;
+    background: #1b1f21;
+    z-index: 3;
+    border-radius: 5px;
+    box-shadow: 5px 5px 50px black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Geneva;
+    color: #66d9ef;
+    font-size: 50px;
+    text-shadow: 2px 2px 10px #000;
 }
 .bear {
     top: 20%;
     left: -10%;
-    /*max-height: 80%;*/
     height: 800px;
     background-size: 1200px;
     background-image: url("./images/bear.png");
+    z-index: 4;
 }
 .leaves-one {
     background-image: url("./images/leaves1.png");
+    z-index: 5;
 }
 .leaves-two {
     background-image: url("./images/leaves2.png");
+    z-index: 6;
 }
