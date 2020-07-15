@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./styles.css">
+    <title>Mouse Parallax</title>
+</head>
+<body>
+    <main>
+        <div class="background">
+             <img src="./images/background.jpg" class="movement" data-speed="2" />
+        </div>
+        <p class="movement" data-speed="-3" >No te rindas</p>
+        <p class="movement" data-speed="4" >¡Que trucazo!</p>
+        <img src="./images/moe.png" alt="moe" class="movement moe" data-speed="-2" >
+    </main>
+    <script type="text/javascript">
+        document.addEventListener('mousemove', parallax);
+        function parallax(event) {
+          this.querySelectorAll('.movement').forEach(element => {
+            const speed = element.getAttribute('data-speed');
+            const x = (window.innerWidth - event.pageX * speed) / 100;
+            const y = (window.innerWidth - event.pageY * speed) / 100;
+            element.style.transform = `translateX(${x}px) translateY(${y}px)`;
+          })
+        }
+    </script>
+</body>
+</html>
