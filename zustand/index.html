@@ -10,13 +10,13 @@
 </head>
 <body>  
     <main>
-        <div class="layer background" data-speed="-2"></div>
-        <div class="layer stars" data-speed="-1"></div>
-        <div class="layer ground" data-speed="-0.5"></div>
-        <div class="layer bear" data-speed="0.5"></div>
-        <div class="layer code" data-speed="1">¡No te rindas!</div>
-        <div class="layer leaves-one" data-speed="1.5"></div>
-        <div class="layer leaves-two" data-speed="2"></div>
+        <div class="layer background" data-speed="-1"></div>
+        <div class="layer stars" data-speed="-0.5"></div>
+        <div class="layer ground" data-speed="-0.2"></div>
+        <div class="layer bear" data-speed="0.2"></div>
+        <div class="layer code" data-speed="0.5">¡No te rindas!</div>
+        <div class="layer leaves-one" data-speed="0.7"></div>
+        <div class="layer leaves-two" data-speed="1"></div>
 <!--        <img src="./images/bg.jpg" alt="" class="layer">-->
 <!--        <img src="./images/stars.png" alt="" class="layer">-->
 <!--        <img src="./images/ground.png" alt="" class="layer">-->
@@ -29,9 +29,30 @@
       function parallax(event) {
         this.querySelectorAll('.layer').forEach(element => {
           const speed = element.getAttribute('data-speed');
-          const x = (window.innerWidth - event.pageX * speed) / 100;
-          const y = (window.innerWidth - event.pageY * speed) / 100;
-          element.style.transform = `translateX(${x}px) translateY(${y}px)`;
+
+          const windowInnerWidth = window.innerWidth;
+          const windowInnerHeight = window.innerHeight;
+          console.log('windowInnerWidth =>', windowInnerWidth);
+          console.log('windowInnerHeight =>', windowInnerWidth);
+
+          const { pageX, pageY } = event;
+          console.log('pageX =>', pageX);
+          console.log('pageY =>', pageY);
+
+          // const x = (windowInnerWidth - pageX * speed) / 200;
+          // const y = (windowInnerHeight - pageY * speed) / 200;
+
+          // const x = (windowInnerWidth - (pageX * 2)) / 50;
+          // const y = (windowInnerHeight - (pageY * 2)) / 50;
+
+          // tomando dx como 50, por regla de 3 x = dx * posición de Mouse en X / el ancho total del monitor
+          const x = 50 * pageX / windowInnerWidth * speed;
+          // tomando dy como 50, por regla de 3 y = dy * posición de Mouse en Y / el alto total del monitor
+          const y = 50 * pageY / windowInnerHeight * speed;
+          console.log('x =>', x);
+          console.log('y =>', y);
+          // element.style.transform = `translateX(${x}px) translateY(${y}px)`;
+          element.style.transform = `translate3d(${x}px, ${y}px, 0)`;
         })
       }
     </script>

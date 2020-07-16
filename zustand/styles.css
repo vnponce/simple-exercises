@@ -1,3 +1,7 @@
+:root {
+    --dx: 50px;
+    --dy: 50px;
+}
 body {
     margin: 0;
     padding: 0;
@@ -10,13 +14,18 @@ main {
 }
 main div {
     position: absolute;
-    top: -50px;
-    left: -50px;
+
+    top: calc(var(--dx) * -1);
+    left: calc(var(--dy) * -1);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50%;
-    width: 110%;
-    height: 110%;
+    /*width: 100%;*/
+    /* debe ser el doble porque es -50 de top y debe haber 50 tdavía abajo */
+    /* hay dx arriba y dx abajo */
+    width: calc(100% + calc(var(--dx)*2));
+    /*height: 100%;*/
+    height: calc(100% + calc(var(--dx)*2));
 }
 .background {
     background-image: url("./images/bg.jpg");
