@@ -28,6 +28,7 @@
       document.addEventListener('mousemove', parallax);
       function parallax(event) {
         this.querySelectorAll('.layer').forEach(element => {
+          // el speed debe ser de los rangos entre [-1, 1] donde 0 sería que se mueve a la misma velocidad del cursor
           const speed = element.getAttribute('data-speed');
 
           const windowInnerWidth = window.innerWidth;
