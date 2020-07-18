@@ -1,11 +1,33 @@
+/* Declarando variables */
+/*
+
+Por ejemplo
+Pantalla tiene width de 2000px y height de 300px
+
+ + dx +----- 2000x -----+ dx +  Width de los contenedores son: dx + ancho + dy;
+ |   dy                dy     |                              : 50 + 2000 + 50;
+ |    +----- 2000px ----+     |
+ |    |                 |     |
+ |  300px               |     |    Height: dy + altura + dy
+ |    |                 |     |          : 50 + 300 + 50;
+ |    +-----------------+     |
+ |   dy                dy     |
+ + dx +                  + dx +
+
+*/
 :root {
     --dx: 50px;
     --dy: 50px;
 }
+/* limpiamos body */
 body {
     margin: 0;
     padding: 0;
 }
+/* Contenedor principal absouto abarcando completo el ancho y alto y ocultando lo que sobre
+    es decir, ocultamos los dx's y los dy's de cada ancho y alto, los 50px que indicaremos que sean mas altos y anchos los
+    contenedores hijos.
+*/
 main {
     position: absolute;
     width: 100%;
@@ -13,40 +35,87 @@ main {
     overflow: hidden;
 }
 main div {
+    /* Los hijos son absolutos porque queremos se muevan a nuestra disposición en la pantalla */
     position: absolute;
 
-    top: calc(var(--dx) * -1);
+    /*Calculamos su top ubicandolo de manera NEGATIVA ( * -1 ) la cantidad de dx exacta (-50px en este caso) */
+    /* Quedando oculto al iniciar una franja superior de 50px del contenedor */
+    top: calc(var(--dx) * -1);  /* top = 50 * (-1) = -50*/
+
+    /*Calculamos su left ubicandolo de manera NEGATIVA ( * -1 ) la cantidad de dx exacta (-50px en este caso) */
+    /* Quedando oculto al iniciar una columna izquierda de 50px del contenedor */
     left: calc(var(--dy) * -1);
+
+    /* Le indicamos al background que CUBRA por completo el contenedor */
     background-size: cover;
+
+    /* No es necesari repetir */
     background-repeat: no-repeat;
+
+    /* Que se coloque a la mitad del contenedor para que quede en */
+    /* x = 50% la mitad del horizonte */
+    /* y = middle al medio de lo vertical */
     background-position: 50%;
-    /*width: 100%;*/
-    /* debe ser el doble porque es -50 de top y debe haber 50 tdavía abajo */
-    /* hay dx arriba y dx abajo */
+
+    /* El ancho del contenedor es como mencionamos debe ser mayor al de la ventana
+        : dx + ancho completo + dx
+     simplificando como
+        : (dx * 2) + ancho completo
+
+    */
     width: calc(100% + calc(var(--dx)*2));
-    /*height: 100%;*/
+
+    /* El alto del contenedor es como mencionamos debe ser mayor al de la ventana
+        : dy + ancho completo + dy
+     simplificando como
+        : (dy * 2) + alto completo
+    */
     height: calc(100% + calc(var(--dx)*2));
 }
+
 .background {
+    /*Configuramos su background*/
     background-image: url("./images/bg.jpg");
-    z-index: 1;
+
+    /*
+        No es estrictamente necesario para este pero le agregamos un z-index ya que dependiendo su ubicación es la capa que toman
+        Pero de querer jugar con las capas en ciertas circunstancias nos aseguramos su nivel
+        z-index: 1;
+    */
 }
 .stars {
+    /*Configuramos su background*/
     background-image: url("./images/stars.png");
-    z-index: 2;
+
+    /*
+        No es estrictamente necesario para este pero le agregamos un z-index ya que dependiendo su ubicación es la capa que toman
+        Pero de querer jugar con las capas en ciertas circunstancias nos aseguramos su nivel
+        z-index: 2;
+    */
 }
+
 .ground {
+    /*Configuramos su background*/
     background-image: url("./images/ground.png");
-    z-index: 2;
+
+    /*
+        No es estrictamente necesario para este pero le agregamos un z-index ya que dependiendo su ubicación es la capa que toman
+        Pero de querer jugar con las capas en ciertas circunstancias nos aseguramos su nivel
+        z-index: 2;
+    */
 }
+
 .code {
-    position: absolute;
+    /*Posición absoluta*/
     top: 20%;
     left: 55%;
+
+    /* Este no abarca el todo el ancho o alto */
     width: 40%;
     height: 50%;
+
+    /* color de background y estilos de caja */
     background: #1b1f21;
-    z-index: 3;
     border-radius: 5px;
     box-shadow: 5px 5px 50px black;
     display: flex;
@@ -56,19 +125,55 @@ main div {
     color: #66d9ef;
     font-size: 50px;
     text-shadow: 2px 2px 10px #000;
+
+    /*
+        No es estrictamente necesario para este pero le agregamos un z-index ya que dependiendo su ubicación es la capa que toman
+        Pero de querer jugar con las capas en ciertas circunstancias nos aseguramos su nivel
+        z-index: 3;
+    */
+
 }
 .bear {
+    /* El oso tiene transparencia al rededor por lo que no es necesario que sea mas grande de la pantalla
+       este valor se ajusta para que quede sobre el piso, ya que se ajustará a que quede en la parte de abajo
+       del contenedor.
+    */
     height: 100%;
+
+    /* Su tamaño que sea de la mitad*/
     background-size: 50%;
+
+    /* Obligamos que quede en la parte inferior de su contenedor y como esta en posición -50 de top no se verá
+        hasta abajo, si no lo mas cercano donde lo queremos que es el piso.
+    */
     background-position-y: bottom;
+
+    /* Su imagen */
     background-image: url("./images/bear.png");
-    z-index: 4;
+
+    /*
+        No es estrictamente necesario para este pero le agregamos un z-index ya que dependiendo su ubicación es la capa que toman
+        Pero de querer jugar con las capas en ciertas circunstancias nos aseguramos su nivel
+        z-index: 4;
+    */
 }
 .leaves-one {
+    /*Configuramos su background*/
     background-image: url("./images/leaves1.png");
-    z-index: 5;
+
+    /*
+        No es estrictamente necesario para este pero le agregamos un z-index ya que dependiendo su ubicación es la capa que toman
+        Pero de querer jugar con las capas en ciertas circunstancias nos aseguramos su nivel
+        z-index: 5;
+    */
 }
 .leaves-two {
+    /*Configuramos su background*/
     background-image: url("./images/leaves2.png");
-    z-index: 6;
+
+    /*
+        No es estrictamente necesario para este pero le agregamos un z-index ya que dependiendo su ubicación es la capa que toman
+        Pero de querer jugar con las capas en ciertas circunstancias nos aseguramos su nivel
+        z-index: 6;
+    */
 }

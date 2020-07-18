@@ -10,49 +10,112 @@
 </head>
 <body>  
     <main>
+<!--        La clase layer nos ayudará a identificar cuál elemento del DOM deseamos move -->
+<!--        Para ello agregamos la propiedad data-speed que debe estar dentro del rango de valores de:-->
+<!--        -1 para movimientos en sentido negativo es decir en sentido contrario al cursor y en velocidad del cursor -->
+<!--        Menores a 0 y mayores a -1, sentido negativo al cursos pero en velocidad menor -->
+<!--        0  para evitar que se mueva el elemento -->
+<!--        Mayores a 0 y menores a 1, sentido positovo al cursos pero en velocidad menor -->
+<!--        1  para evitar que se en sentido positivo es decir en la dirección del cursor -->
         <div class="layer background" data-speed="-1"></div>
+<!--        Ejemplo este va en dirección contraria al cursor a velocidad media -->
         <div class="layer stars" data-speed="-0.5"></div>
         <div class="layer ground" data-speed="-0.2"></div>
-        <div class="layer bear" data-speed="0.2"></div>
+<!--        Ejemplo este va en dirección del cursor a velocidad media -->
         <div class="layer code" data-speed="0.5">¡No te rindas!</div>
+        <div class="layer bear" data-speed="0.2"></div>
         <div class="layer leaves-one" data-speed="0.7"></div>
         <div class="layer leaves-two" data-speed="1"></div>
-<!--        <img src="./images/bg.jpg" alt="" class="layer">-->
-<!--        <img src="./images/stars.png" alt="" class="layer">-->
-<!--        <img src="./images/ground.png" alt="" class="layer">-->
-<!--        <img src="./images/bear.png" alt="" class="layer">-->
-<!--        <img src="./images/leaves1.png" alt="" class="layer">-->
-<!--        <img src="./images/leaves2.png" alt="" class="layer">-->
     </main>
     <script type="text/javascript">
+        /* Agregamos el listener para detectar el movimiento de mouse en el documento
+        *  llamando a la función parallax cuando este evento suceda
+        */
       document.addEventListener('mousemove', parallax);
+
+
       function parallax(event) {
+
+        const dx = 50;
+        const dy = 50;
+        // Iteramos por cada uno de los elementos de dom que se desea mover
         this.querySelectorAll('.layer').forEach(element => {
-          // el speed debe ser de los rangos entre [-1, 1] donde 0 sería que se mueve a la misma velocidad del cursor
+          // Tomamos el valor de la velcoidad y su dirección.
           const speed = element.getAttribute('data-speed');
 
+          // Detectar el ancho de la ventana
           const windowInnerWidth = window.innerWidth;
+          // Detectar el alto de la ventana
           const windowInnerHeight = window.innerHeight;
-          console.log('windowInnerWidth =>', windowInnerWidth);
-          console.log('windowInnerHeight =>', windowInnerWidth);
 
-          const { pageX, pageY } = event;
-          console.log('pageX =>', pageX);
-          console.log('pageY =>', pageY);
+          // Tomamos los valores del cursos en la pantalla. Este número es dado px's.
+          const {
+            /* va desde en x desde 0 hasta el número de px en el ancho de la ventana, osea el window.innerWidth
+            * 0 pegado a la izquierda
+            * window.innerWidth pegado a la derecha
+            */
+            pageX,
+            /* va desde en y desde 0 hasta el número de px en el alto de la ventana, osea el window.innerHeight
+            * 0 pegado a la parte superior
+            * window.innerHeight pegado a la parte inferior
+            */
+            pageY
+          } = event;
+          // console.log('pageX =>', pageX);
+          // console.log('pageY =>', pageY);
 
-          // const x = (windowInnerWidth - pageX * speed) / 200;
-          // const y = (windowInnerHeight - pageY * speed) / 200;
+          /* Acá debemos recordar el valor de dx como 50.
+          * Si el cursos esta en 0 de X, la posición en left debe ser -50
+          * Si el cursor esta en el ancho máximo, la posición de left debe ser 50
+          * Por lo que tenemos lo siguiente:
+          *     50px -> posición en ancho total
+          *     å px -> posición en cualquier lugar
+          *
+          *     å = 50 * posición en cualquier lugar / posición en ancho total;
+          *     å = 50 * pageX / windowInnerWidth;
+          *
+          * tomando dx como 50, por regla de 3 .: x = dx * posición de Mouse en X / el ancho total del monitor
+          */
+          const xPos = dx * pageX / windowInnerWidth;
 
-          // const x = (windowInnerWidth - (pageX * 2)) / 50;
-          // const y = (windowInnerHeight - (pageY * 2)) / 50;
+          /*
+            Ahora cual será la posición del contenedor dependiendo el cursor,
+            Pero ahora debemos considerar la velocidad y dirección, para ello pensemos lo siguiente.
 
-          // tomando dx como 50, por regla de 3 x = dx * posición de Mouse en X / el ancho total del monitor
-          const x = 50 * pageX / windowInnerWidth * speed;
-          // tomando dy como 50, por regla de 3 y = dy * posición de Mouse en Y / el alto total del monitor
-          const y = 50 * pageY / windowInnerHeight * speed;
-          console.log('x =>', x);
-          console.log('y =>', y);
-          // element.style.transform = `translateX(${x}px) translateY(${y}px)`;
+            Primer punto sería la dirección:
+            Imaginando que xPos es igual a 25px, pero queremos que sea en dirección contraria
+            al cursos lo haríamos negativo -25px.
+
+            Segundo la velocidad:
+            Podemos jugar con la velocidad si en lugar de que sean 25px a velocidad normal, lo disminuimos a
+            12.5px lo que haría un movimiento de la mitdad de velocidad del cursor.
+
+            Nuestro valor de velocidad nos indica su dirección con siendo positivo o negativo y nos indica
+            la velocidad entre los rangos -1 y 1, mientras que el valor 0 significa que no se moverá.
+           */
+          const x = xPos * speed;
+
+          // El mismo caso pasa con Y
+            /* Acá debemos recordar el valor de dy como 50.
+            * Si el cursos esta en 0 de Y, la posición en top debe ser -50
+            * Si el cursor esta en el ancho máximo, la posición de top debe ser 50
+            * Por lo que tenemos lo siguiente:
+            *     50px -> posición en alto total
+            *     ß px -> posición en cualquier lugar
+            *
+            *     ß = 50 * posición en cualquier lugar / posición en alto total;
+            *     ß = 50 * pageY / windowInnerHeight;
+            *
+            * tomando dy como 50, por regla de 3 .: y = dy * posición de Mouse en Y / el alto total del monitor
+            */
+
+          const yPos = dy * pageY / windowInnerHeight;
+          const y = yPos * speed;
+
+          /*
+          * Transformamos el elemento en las posiciónes X y Y respectivamente. Tambien pudo ser como
+          * `translateX(${x}px) translateY(${y}px)`
+          */
           element.style.transform = `translate3d(${x}px, ${y}px, 0)`;
         })
       }
